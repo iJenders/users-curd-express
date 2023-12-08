@@ -21,9 +21,12 @@ export const userRoutes = () => {
                     id: parseInt(req.params.id)
                 }
             })
-            res.json(user)
+            if (user.length < 1) {
+                throw Error('No users with id: ' + req.params.id)
+            }
+            res.json(user[0])
         } catch (error) {
-            res.send('Error finding user: \n' + error)
+            res.json({ error: 'Error finding user:' + error })
         }
     })
 
@@ -91,7 +94,7 @@ export const userRoutes = () => {
                 deletedUser: user[0]
             })
         } catch (error) {
-            res.send('Error updating user: \n' + error)
+            res.send('Error deleting user: \n' + error)
         }
     })
 }
